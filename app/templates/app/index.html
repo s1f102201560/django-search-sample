@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>検索アプリ</title>
+</head>
+<body>
+  <h1>ブログ一覧</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>タイトル</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for blog in blogs %}
+      <tr>
+        <td style="border-bottom: solid 1px black;">{{ blog.title }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
