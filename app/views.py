@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from app.models import Blog
 
 # Create your views here.
@@ -21,8 +22,5 @@ def search(request):
   else:
     blogs = Blog.objects.all()
 
-  context = {
-    "blogs": blogs,
-  }
-
-  return render(request, template_name, context)
+  blogs_data = [{'title': blog.title} for blog in blogs]
+  return JsonResponse({'blogs': blogs_data})

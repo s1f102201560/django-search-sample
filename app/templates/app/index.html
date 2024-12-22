@@ -1,18 +1,23 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>検索アプリ</title>
+
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 </head>
 <body>
   <h1>ブログ一覧</h1>
-  <form method="GET" action="{% url 'search' %}">
+  <form id="search-form" method="GET" action="{% url 'search' %}">
     {% csrf_token %}
     <input type="text" name="query" id="id_query" placeholder="クエリ" />
     <button type="submit">検索</button>
   </form>
-  <table>
+  <table id="search-results">
     <thead>
       <tr>
         <th>タイトル</th>
@@ -26,5 +31,34 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <script>
+      $(document).ready(function () {
+        $('#search-form').on('submit', function (e) {
+          e.preventDefault();
+
+          var query = $('#id_query').val();
+
+          $.ajax({
+            url: "{% url 'search' %}",
+            type: "GET",
+            data: {
+              'query': query
+            },
+            dataType: 'json',
+            success: function (data) {
+              var tbody = '';
+              data.blogs.forEach(function(blog) {
+                tbody += '<tr><td style="border-bottom: solid 1px black;">' + blog.title + '</td></tr>';
+              });
+              $('#search-results tbody').html(tbody);
+            },
+            error: function (xhr, status, error) {
+              console.error('検索に失敗しました:', error);
+            }
+          });
+        });
+      });
+  </script>
 </body>
 </html>
