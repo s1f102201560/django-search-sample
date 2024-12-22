@@ -14,8 +14,7 @@
   <h1>ブログ一覧</h1>
   <form id="search-form" method="GET" action="{% url 'search' %}">
     {% csrf_token %}
-    <input type="text" name="query" id="id_query" placeholder="クエリ" />
-    <button type="submit">検索</button>
+    <input type="text" name="query" id="id_query" placeholder="クエリ" autocomplete="off" />
   </form>
   <table id="search-results">
     <thead>
@@ -34,7 +33,7 @@
 
   <script>
       $(document).ready(function () {
-        $('#search-form').on('submit', function (e) {
+        $('#search-form').on('input', function (e) {
           e.preventDefault();
 
           var query = $('#id_query').val();
