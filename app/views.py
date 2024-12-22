@@ -11,3 +11,18 @@ def index(request):
   }
 
   return render(request, template_name, context)
+
+def search(request):
+  template_name = "app/index.html"
+  query = request.GET.get("query")
+  if query:
+    blogs = Blog.objects.all().filter(title__icontains=query) # 部分一致
+    print(query)
+  else:
+    blogs = Blog.objects.all()
+
+  context = {
+    "blogs": blogs,
+  }
+
+  return render(request, template_name, context)

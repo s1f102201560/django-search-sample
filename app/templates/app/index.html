@@ -7,6 +7,11 @@
 </head>
 <body>
   <h1>ブログ一覧</h1>
+  <form method="GET" action="{% url 'search' %}">
+    {% csrf_token %}
+    <input type="text" name="query" id="id_query" placeholder="クエリ" />
+    <button type="submit">検索</button>
+  </form>
   <table>
     <thead>
       <tr>
